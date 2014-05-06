@@ -1,0 +1,22 @@
+﻿@model IEnumerable<PartsCatalog.Models.Make>
+
+@{
+    ViewBag.Title = "Makes";
+    Layout = "~/Views/LayoutPage.cshtml";
+}
+
+<div class="makes-container">
+@Html.ActionLink("Add", "Add", new { }, new { @class = "add-make" })
+@foreach (var make in Model)
+{
+    <div class="make">
+        @if (make.Image != null)
+        {
+            <img src="@Url.Content(PartsCatalog.Util.ImageManager.ImagesPath + make.Image)" class="make-logo"/>
+        }
+        <div class="make-name">@make.Name</div>
+        @Html.ActionLink("Edit", "Edit", new { id = make.Id }, new { @class = "edit-make" })
+    </div>          
+}
+</div>
+

@@ -1,0 +1,28 @@
+﻿@model PartsCatalog.Models.Make
+
+@{
+    ViewBag.Title = "Edit Make";
+    Layout = "~/Views/LayoutPage.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "Makes", FormMethod.Post, new {enctype = "multipart/form-data" }))
+{
+    <fieldset>
+        @Html.HiddenFor(model => model.Id)
+        <legend>Make</legend>
+        <div>Name</div>
+        @Html.EditorFor(model => model.Name)
+        <div>Logo</div>
+        @if (Model.Image != null)
+        {
+            <img class="make-logo-preview" src="@Url.Content(PartsCatalog.Util.ImageManager.ImagesPath + Model.Image)" />
+        }
+        <p>
+            <input type="file" name="file" />
+        </p>
+        <p>
+            <input type="submit" value="Save" />
+            <input type="button" value="Delete" onclick="window.location.href='@Url.Action("Delete", new { id = Model.Id})';" />
+        </p>
+    </fieldset>
+}
