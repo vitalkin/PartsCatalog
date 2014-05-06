@@ -8,7 +8,7 @@ using System.Web;
 
 namespace PartsCatalog.Util
 {
-    public class ImageManager
+    public class ImageManager : IImageManager
     {
         public const string imagesPath = "~/Resources/Images/";
 

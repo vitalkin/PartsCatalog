@@ -12,32 +12,32 @@ namespace PartsCatalog.Controllers
 {
     public class MakesController : Controller
     {
+        private IMakesRepository repository;
+
+        private IImageManager imageManger;
+
+        public MakesController(IMakesRepository repository, IImageManager imageManger)
+        {
+            this.repository = repository;
+            this.imageManger = imageManger;
+        }
 
         public ActionResult List()
         {
-            using (var repo = new MakesRepository(Server))
-            {
-                return View(repo.Get(orderBy: make => make.Name));
-            }
+            return View(repository.Get(orderBy: make => make.Name));
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            using (var repo = new MakesRepository(Server))
-            {
-                var make = repo.GetById(id);
-                return make == null ? RedirectToAction("List") : (ActionResult) View(make);
-            }
+            var make = repository.GetById(id);
+            return make == null ? RedirectToAction("List") : (ActionResult) View(make);
         }
 
         [HttpPost]
         public ActionResult Edit(Make make, HttpPostedFileBase file)
         {
-            using (var repo = new MakesRepository(Server))
-            {
-                repo.SaveOrUpdate(make, file);
-            }
+            repository.SaveOrUpdate(make, file);
             return RedirectToAction("Edit", new { id = make.Id });
         }
 
@@ -48,10 +48,7 @@ namespace PartsCatalog.Controllers
 
         public ActionResult Delete(int id)
         {
-            using (var repo = new MakesRepository(Server))
-            {
-                repo.Delete(id);
-            }
+            repository.Delete(id);
             return RedirectToAction("List");
         }
 

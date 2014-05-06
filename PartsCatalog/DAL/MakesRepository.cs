@@ -7,13 +7,13 @@ using System.Web;
 
 namespace PartsCatalog.DAL
 {
-    public class MakesRepository : GenericRepository<Make>
+    public class MakesRepository : GenericRepository<Make>, IMakesRepository
     {
         private ImageManager imageManger;
 
-        public MakesRepository(HttpServerUtilityBase server)
+        public MakesRepository(ImageManager imageManger)
         {
-            imageManger = new ImageManager(server);
+            this.imageManger = imageManger;
         }
 
         public void SaveOrUpdate(Make make, HttpPostedFileBase file = null)

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace PartsCatalog.DAL
 {
-    public class GenericRepository<TEntity> : IDisposable where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private DbContext dbContext;
 
