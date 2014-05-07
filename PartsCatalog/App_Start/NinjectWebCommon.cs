@@ -12,6 +12,8 @@ namespace PartsCatalog.App_Start
     using Ninject.Web.Common;
     using PartsCatalog.Util;
     using PartsCatalog.DAL;
+    using System.Data.Entity;
+    using PartsCatalog.Models;
 
     public static class NinjectWebCommon 
     {
@@ -76,6 +78,7 @@ namespace PartsCatalog.App_Start
 
         private static void RegisterDAL(IKernel kernel)
         {
+            kernel.Bind<DbContext>().To<PartsCatalogDbContext>().InRequestScope();
             kernel.Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>)).InRequestScope();
             kernel.Bind<IMakesRepository>().To<MakesRepository>().InRequestScope();
         }

@@ -2,6 +2,7 @@
 using PartsCatalog.Util;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -9,9 +10,10 @@ namespace PartsCatalog.DAL
 {
     public class MakesRepository : GenericRepository<Make>, IMakesRepository
     {
-        private ImageManager imageManger;
+        private IImageManager imageManger;
 
-        public MakesRepository(ImageManager imageManger)
+        public MakesRepository(DbContext dbContext, IImageManager imageManger)
+            : base(dbContext)
         {
             this.imageManger = imageManger;
         }
@@ -37,7 +39,7 @@ namespace PartsCatalog.DAL
         {
             base.Delete(entityToDelete);
             if (!String.IsNullOrEmpty(entityToDelete.Image) && 
-                Get(make => make.Image == entityToDelete.Image).Count() == 0)
+                Get(make => make.Image == entityToDelete.Image).Count() == 0)   // check if there are no references to image
             {
                 imageManger.DeleteImage(entityToDelete.Image);
             }

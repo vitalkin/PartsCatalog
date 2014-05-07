@@ -14,9 +14,9 @@ namespace PartsCatalog.DAL
 
         private DbSet<TEntity> dbSet;
 
-        public GenericRepository()
+        public GenericRepository(DbContext dbContext)
         {
-            dbContext = new PartsCatalogDbContext();
+            this.dbContext = dbContext;
             dbSet = dbContext.Set<TEntity>();
         }
 

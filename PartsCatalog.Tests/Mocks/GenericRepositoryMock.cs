@@ -14,10 +14,12 @@ namespace PartsCatalog.Tests.Mocks
 
         public void Delete(object id)
         {
+            Entities.Remove(GetById(id));
         }
 
         public void Delete(TEntity entityToDelete)
         {
+            Entities.Remove(entityToDelete);
         }
 
         public IEnumerable<TEntity> Get(
@@ -50,6 +52,7 @@ namespace PartsCatalog.Tests.Mocks
 
         public void Insert(TEntity entity)
         {
+            Entities.Add(entity);
         }
 
         public void Update(TEntity entityToUpdate)

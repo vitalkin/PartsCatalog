@@ -26,7 +26,7 @@ namespace PartsCatalog.Util
             using (var md5 = new MD5CryptoServiceProvider())
             {
                 var targetFolder = Server.MapPath(ImagesPath);
-                var hashName = Convert.ToBase64String(md5.ComputeHash(file.InputStream));
+                var hashName = Convert.ToBase64String(md5.ComputeHash(file.InputStream)).Replace("/","_");
                 hashName += Path.GetExtension(file.FileName);
                 file.SaveAs(Path.Combine(targetFolder, hashName));
 
