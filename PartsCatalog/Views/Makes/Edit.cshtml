@@ -5,6 +5,7 @@
     Layout = "~/Views/LayoutPage.cshtml";
 }
 
+@Html.ActionLink("Back", "List")
 @using (Html.BeginForm("Edit", "Makes", FormMethod.Post, new {enctype = "multipart/form-data" }))
 {
     <fieldset>
