@@ -21,6 +21,7 @@ namespace PartsCatalog.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Make>();
+            modelBuilder.Entity<Model>();
         }
     }
 }

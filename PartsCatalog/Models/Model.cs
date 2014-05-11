@@ -6,15 +6,13 @@ using System.Web;
 
 namespace PartsCatalog.Models
 {
-    [Table("Makes")]
-    public class Make
+    [Table("Models")]
+    public class Model
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public string Image { get; set; }
-
-        public virtual ICollection<Model> Models { get; set; }
+        public virtual Make Make { get; set; }
     }
 }

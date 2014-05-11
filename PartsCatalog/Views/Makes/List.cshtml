@@ -9,7 +9,7 @@
 @Html.ActionLink("Add", "Add", new { }, new { @class = "add-make" })
 @foreach (var make in Model)
 {
-    <div class="make">
+    <div class="make" onclick="window.location.href='@Url.Action("List", "Models", new { Id = make.Id })';">
         @if (make.Image != null)
         {
             <img src="@Url.Content(PartsCatalog.Util.ImageManager.ImagesPath + make.Image)" class="make-logo"/>
