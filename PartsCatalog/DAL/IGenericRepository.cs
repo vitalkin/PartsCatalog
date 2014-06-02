@@ -6,7 +6,7 @@ namespace PartsCatalog.DAL
 {
     public interface IGenericRepository<TEntity> : IDisposable
     {
-        void Delete(object id);
+        void Delete(int id);
 
         void Delete(TEntity entityToDelete);
 
@@ -14,10 +14,12 @@ namespace PartsCatalog.DAL
             Expression<Func<TEntity, bool>> filter = null, 
             Expression<Func<TEntity, object>> orderBy = null);
 
-        TEntity GetById(object id);
+        TEntity GetById(int id);
 
         void Insert(TEntity entity);
 
         void Update(TEntity entityToUpdate);
+
+        void SaveOrUpdate(TEntity entity, Func<TEntity, int> idSelector);
     }
 }

@@ -14,12 +14,9 @@ namespace PartsCatalog.Controllers
     {
         private IMakesRepository repository;
 
-        private IImageManager imageManger;
-
-        public MakesController(IMakesRepository repository, IImageManager imageManger)
+        public MakesController(IMakesRepository repository)
         {
             this.repository = repository;
-            this.imageManger = imageManger;
         }
 
         public ActionResult List()
@@ -28,9 +25,9 @@ namespace PartsCatalog.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int makeId)
         {
-            var make = repository.GetById(id);
+            var make = repository.GetById(makeId);
             return make == null ? RedirectToAction("List") : (ActionResult) View(make);
         }
 
@@ -38,7 +35,7 @@ namespace PartsCatalog.Controllers
         public ActionResult Edit(Make make, HttpPostedFileBase file)
         {
             repository.SaveOrUpdate(make, file);
-            return RedirectToAction("Edit", new { id = make.Id });
+            return RedirectToAction("Edit", new { makeId = make.Id });
         }
 
         public ActionResult Add()
@@ -46,9 +43,9 @@ namespace PartsCatalog.Controllers
             return View("Edit", new Make());
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int makeId)
         {
-            repository.Delete(id);
+            repository.Delete(makeId);
             return RedirectToAction("List");
         }
 

@@ -9,6 +9,8 @@ namespace PartsCatalog.Models
     [Table("Makes")]
     public class Make
     {
+        public const string ImagesPath = "~/Resources/Images/Makes/";
+
         public int Id { get; set; }
 
         public string Name { get; set; }

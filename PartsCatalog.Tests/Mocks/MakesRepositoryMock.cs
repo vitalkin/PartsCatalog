@@ -9,8 +9,13 @@ using System.Web;
 
 namespace PartsCatalog.Tests.Mocks
 {
-    public class MakesRepositoryMock : GenericRepositoryMock<Make>, IMakesRepository
+    public class MakesRepositoryMock : GenericRepository<Make>, IMakesRepository
     {
+        public MakesRepositoryMock()
+            : base(new DbContextAdapterMock<Make>())
+        {
+        }
+
         public void SaveOrUpdate(Make make, HttpPostedFileBase file = null)
         {
         }

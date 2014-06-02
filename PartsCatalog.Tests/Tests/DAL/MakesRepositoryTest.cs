@@ -12,36 +12,17 @@ namespace PartsCatalog.Tests.Tests.DAL
     [TestClass]
     public class MakesRepositoryTest
     {
-        private class MakesRepositoryTestClass : MakesRepository
-        {
-            public GenericRepositoryMock<Make> GenericRepository { get; set; }
 
-            public MakesRepositoryTestClass(IImageManager imageManager)
-                : base(new DbContextMock(), imageManager)
-            {
-                GenericRepository = new GenericRepositoryMock<Make>() { Entities = new List<Make>() };
-            }
-
-            public override void Insert(Make entity)
-            {
-                GenericRepository.Insert(entity);
-            }
-
-            public override void Update(Make entityToUpdate)
-            {
-                GenericRepository.Update(entityToUpdate);
-            }
-
-        }
-
-        private MakesRepositoryTestClass unit;
+        private MakesRepository unit;
         private ImageManagerMock imageManager;
+        private DbContextAdapterMock<Make> dbContextAdapter;
 
         [TestInitialize]
         public void Init()
         {
             imageManager = new ImageManagerMock();
-            unit = new MakesRepositoryTestClass(imageManager);
+            dbContextAdapter = new DbContextAdapterMock<Make>();
+            unit = new MakesRepository(dbContextAdapter, imageManager);
         }
 
         [TestMethod]
@@ -52,24 +33,10 @@ namespace PartsCatalog.Tests.Tests.DAL
 
             unit.SaveOrUpdate(make, file);
 
-            var collection = unit.GenericRepository.Entities;
+            var collection = dbContextAdapter.Data;
             Assert.AreEqual(1, collection.Count);
             Assert.AreEqual("Test", collection[0].Name);
             Assert.AreEqual("testImage.png", collection[0].Image);
-        }
-
-        [TestMethod]
-        public void TestUpdate()
-        {
-            var make = new Make() { Id = 1, Name = "Test"};
-            var collection = unit.GenericRepository.Entities;
-            collection.Add(make);
-
-            unit.SaveOrUpdate(make, null);
-
-            Assert.AreEqual(1, collection.Count);
-            Assert.AreEqual(make, collection[0]);
-
         }
 
     }

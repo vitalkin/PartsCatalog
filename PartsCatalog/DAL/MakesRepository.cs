@@ -1,4 +1,5 @@
-﻿using PartsCatalog.Models;
+﻿using PartsCatalog.DAL.Context;
+using PartsCatalog.Models;
 using PartsCatalog.Util;
 using System;
 using System.Collections.Generic;
@@ -10,29 +11,21 @@ namespace PartsCatalog.DAL
 {
     public class MakesRepository : GenericRepository<Make>, IMakesRepository
     {
-        private IImageManager imageManger;
+        private IImageManager imageManager;
 
-        public MakesRepository(DbContext dbContext, IImageManager imageManger)
-            : base(dbContext)
+        public MakesRepository(IDbContextAdapter<Make> dbContextAdapter, IImageManager imageManager)
+            : base(dbContextAdapter)
         {
-            this.imageManger = imageManger;
+            this.imageManager = imageManager;
         }
 
         public void SaveOrUpdate(Make make, HttpPostedFileBase file = null)
         {
             if (file != null && file.ContentLength > 0)
             {
-                make.Image = imageManger.SaveImageWithHash(file);
+                make.Image = imageManager.SaveImageWithHash(file);
             }
-
-            if (make.Id > 0)
-            {
-                Update(make);
-            }
-            else
-            {
-                Insert(make);
-            }
+            SaveOrUpdate(make, m => m.Id);
         }
 
         public override void Delete(Make entityToDelete)
@@ -41,7 +34,7 @@ namespace PartsCatalog.DAL
             if (!String.IsNullOrEmpty(entityToDelete.Image) && 
                 Get(make => make.Image == entityToDelete.Image).Count() == 0)   // check if there are no references to image
             {
-                imageManger.DeleteImage(entityToDelete.Image);
+                imageManager.DeleteImage(entityToDelete.Image);
             }
         }
     }

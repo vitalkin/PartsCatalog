@@ -1,4 +1,5 @@
-﻿using PartsCatalog.Models;
+﻿using PartsCatalog.DAL.Context;
+using PartsCatalog.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,17 +11,17 @@ namespace PartsCatalog.DAL
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private DbContext dbContext;
+        private IDbContextAdapter<TEntity> dbContextAdapter;
 
-        private DbSet<TEntity> dbSet;
+        private IDbSet<TEntity> dbSet;
 
-        public GenericRepository(DbContext dbContext)
+        public GenericRepository(IDbContextAdapter<TEntity> dbContextAdapter)
         {
-            this.dbContext = dbContext;
-            dbSet = dbContext.Set<TEntity>();
+            this.dbContextAdapter = dbContextAdapter;
+            dbSet = dbContextAdapter.DbSet;
         }
 
-        public virtual TEntity GetById(object id)
+        public virtual TEntity GetById(int id)
         {
             return dbSet.Find(id);
         }
@@ -28,10 +29,10 @@ namespace PartsCatalog.DAL
         public virtual void Insert(TEntity entity)
         {
             dbSet.Add(entity);
-            dbContext.SaveChanges();
+            dbContextAdapter.Save();
         }
 
-        public virtual void Delete(object id)
+        public virtual void Delete(int id)
         {
             TEntity entityToDelete = dbSet.Find(id);
             Delete(entityToDelete);
@@ -39,19 +40,19 @@ namespace PartsCatalog.DAL
 
         public virtual void Delete(TEntity entityToDelete)
         {
-            if (dbContext.Entry(entityToDelete).State == EntityState.Detached)
+            if (dbContextAdapter.GetState(entityToDelete) == EntityState.Detached)
             {
                 dbSet.Attach(entityToDelete);
             }
             dbSet.Remove(entityToDelete);
-            dbContext.SaveChanges();
+            dbContextAdapter.Save();
         }
 
         public virtual void Update(TEntity entityToUpdate)
         {
             dbSet.Attach(entityToUpdate);
-            dbContext.Entry(entityToUpdate).State = EntityState.Modified;
-            dbContext.SaveChanges();
+            dbContextAdapter.SetState(entityToUpdate, EntityState.Modified);
+            dbContextAdapter.Save();
         }
 
         public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Expression<Func<TEntity, object>> orderBy = null)
@@ -73,7 +74,20 @@ namespace PartsCatalog.DAL
 
         public void Dispose()
         {
-            dbContext.Dispose();
+            dbContextAdapter.Dispose();
+        }
+
+        public virtual void SaveOrUpdate(TEntity entity, Func<TEntity, int> idSelector)
+        {
+            var id = idSelector(entity);
+            if (id == 0)
+            {
+                Insert(entity);
+            }
+            else
+            {
+                Update(entity);
+            }
         }
     }
 }

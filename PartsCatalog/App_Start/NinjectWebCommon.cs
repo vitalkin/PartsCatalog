@@ -14,14 +14,12 @@ namespace PartsCatalog.App_Start
     using PartsCatalog.DAL;
     using System.Data.Entity;
     using PartsCatalog.Models;
+    using PartsCatalog.DAL.Context;
 
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
-        /// <summary>
-        /// Starts the application
-        /// </summary>
         public static void Start() 
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
@@ -29,18 +27,11 @@ namespace PartsCatalog.App_Start
             bootstrapper.Initialize(CreateKernel);
         }
         
-        /// <summary>
-        /// Stops the application.
-        /// </summary>
         public static void Stop()
         {
             bootstrapper.ShutDown();
         }
         
-        /// <summary>
-        /// Creates the kernel that will manage your application.
-        /// </summary>
-        /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
@@ -59,10 +50,6 @@ namespace PartsCatalog.App_Start
             }
         }
 
-        /// <summary>
-        /// Load your modules or register your services here!
-        /// </summary>
-        /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<HttpServerUtilityBase>().ToMethod(c => new HttpServerUtilityWrapper(HttpContext.Current.Server));
@@ -73,14 +60,21 @@ namespace PartsCatalog.App_Start
 
         private static void RegisterUtils(IKernel kernel)
         {
-            kernel.Bind<IImageManager>().To<ImageManager>().InThreadScope();
+            kernel.Bind<IImageManager>().To<ImageManager>()
+                .WhenInjectedInto<IMakesRepository>()
+                .WithConstructorArgument(Make.ImagesPath);
+            kernel.Bind<IImageManager>().To<ImageManager>()
+                .WhenInjectedInto<IModelsRepository>()
+                .WithConstructorArgument(Model.ImagesPath);
         }
 
         private static void RegisterDAL(IKernel kernel)
         {
             kernel.Bind<DbContext>().To<PartsCatalogDbContext>().InRequestScope();
+            kernel.Bind(typeof(IDbContextAdapter<>)).To(typeof(DbContextAdapter<>)).InRequestScope();
             kernel.Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>)).InRequestScope();
             kernel.Bind<IMakesRepository>().To<MakesRepository>().InRequestScope();
+            kernel.Bind<IModelsRepository>().To<ModelsRepository>().InRequestScope();
         }
 
 

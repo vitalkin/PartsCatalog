@@ -15,8 +15,8 @@ namespace PartsCatalog
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Makes", action = "List", id = UrlParameter.Optional }
+                url: "{controller}/{action}/{makeId}/{modelId}",
+                defaults: new { controller = "Makes", action = "List", makeId = UrlParameter.Optional, modelId = UrlParameter.Optional }
             );
 
         }

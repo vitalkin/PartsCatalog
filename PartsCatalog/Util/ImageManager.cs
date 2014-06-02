@@ -10,15 +10,14 @@ namespace PartsCatalog.Util
 {
     public class ImageManager : IImageManager
     {
-        public const string imagesPath = "~/Resources/Images/";
+        public string ImagesPath { get; private set; }
 
-        public static string ImagesPath { get { return imagesPath; } }
+        public HttpServerUtilityBase Server { get; private set; }
 
-        public HttpServerUtilityBase Server { get; set; }
-
-        public ImageManager(HttpServerUtilityBase server)
+        public ImageManager(HttpServerUtilityBase server, string imagesPath)
         {
             Server = server;
+            ImagesPath = imagesPath;
         }
 
         public string SaveImageWithHash(HttpPostedFileBase file)

@@ -62,3 +62,16 @@ fieldset {
     margin-left: 5px;
     display: block;
 }
+
+/* Models */
+
+.models-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+}
+
+.add-model {
+    margin-left: 5px;
+    display: block;
+}

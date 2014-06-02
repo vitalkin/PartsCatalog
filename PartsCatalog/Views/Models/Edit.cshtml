@@ -1,0 +1,35 @@
+﻿@model PartsCatalog.Models.Model
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/LayoutPage.cshtml";
+}
+
+
+@Html.ActionLink("Back", "List", new { makeId = Model.Make.Id })
+@using (Html.BeginForm("Edit", "Models", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <fieldset>
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Make.Id)
+        <legend>Model</legend>
+        <div>Name</div>
+        @Html.EditorFor(model => model.Name)
+        <div>Images</div>
+        @{var images = Model.GetImages();}
+        @if (images != null)
+        {
+            foreach (var image in images)
+            {
+                <img src="@Url.Content(PartsCatalog.Models.Model.ImagesPath + image)" class="model-image-preview"/>
+            }
+        }
+        <p>
+            <input type="file" name="files" accept="image/*" multiple />
+        </p>
+        <p>
+            <input type="submit" value="Save" />
+            <input type="button" value="Delete" onclick="window.location.href='@Url.Action("Delete", new { makeId = Model.Make.Id, modelId = Model.Id })';" />
+        </p>
+    </fieldset>
+}

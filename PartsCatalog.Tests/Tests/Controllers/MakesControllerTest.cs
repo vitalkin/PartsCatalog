@@ -18,15 +18,14 @@ namespace PartsCatalog.Tests.Controllers
         public void Init()
         {
             repository = new MakesRepositoryMock();
-            repository.Entities = new List<Make>();
-            unit = new MakesController(repository, new ImageManagerMock());
+            unit = new MakesController(repository);
         }
 
         [TestMethod]
         public void TestEdit()
         {
             var make = new Make() { Id = 1 };
-            repository.Entities.Add(make);
+            repository.Insert(make);
             var result = unit.Edit(1);
             Assert.IsTrue(result is ViewResult);
             Assert.AreEqual(make, ((ViewResult)result).Model);

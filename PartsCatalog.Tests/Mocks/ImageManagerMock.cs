@@ -10,8 +10,16 @@ namespace PartsCatalog.Tests.Mocks
 {
     public class ImageManagerMock : IImageManager
     {
+        public List<string> DeletedImages { get; set; }
+
+        public ImageManagerMock()
+        {
+            DeletedImages = new List<string>();
+        }
+
         public void DeleteImage(string name)
         {
+            DeletedImages.Add(name);
         }
 
         public string SaveImageWithHash(HttpPostedFileBase file)

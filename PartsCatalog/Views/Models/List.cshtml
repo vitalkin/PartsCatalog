@@ -5,3 +5,22 @@
     Layout = "~/Views/LayoutPage.cshtml";
 }
 
+<div class="models-container">
+@Html.ActionLink("Add", "Add", new { makeId = ViewBag.MakeId }, new { @class = "add-model" })
+@foreach (var item in Model)
+{
+    <div class="model">
+        <div class="model-name">@(item.Name + " (" + item.ProductionStart + "-" + item.ProductionEnd + ")")</div>
+        <div class="model-images">
+            @{var images = item.GetImages();}
+            @if (images != null)
+            {
+                foreach (var image in images)
+                {
+                    <img src="@Url.Content(PartsCatalog.Models.Model.ImagesPath + image)" class="model-image"/>
+                }
+            }
+        </div>
+    </div>          
+}
+</div>

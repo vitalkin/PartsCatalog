@@ -16,14 +16,14 @@
         <div>Logo</div>
         @if (Model.Image != null)
         {
-            <img class="make-logo-preview" src="@Url.Content(PartsCatalog.Util.ImageManager.ImagesPath + Model.Image)" />
+            <img class="make-logo-preview" src="@Url.Content(PartsCatalog.Models.Make.ImagesPath + Model.Image)" />
         }
         <p>
             <input type="file" name="file" accept="image/*" />
         </p>
         <p>
             <input type="submit" value="Save" />
-            <input type="button" value="Delete" onclick="window.location.href='@Url.Action("Delete", new { id = Model.Id})';" />
+            <input type="button" value="Delete" onclick="window.location.href='@Url.Action("Delete", new { makeId = Model.Id})';" />
         </p>
     </fieldset>
 }
