@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace PartsCatalog.DAL.Context
@@ -10,18 +11,12 @@ namespace PartsCatalog.DAL.Context
     {
         public DbContext DbContext { get; private set; }
 
+        public IDbSet<TEntity> DbSet { get; set; }
+
         public DbContextAdapter(DbContext dbContext)
         {
             DbContext = dbContext;
-        }
-
-        public IDbSet<TEntity> DbSet
-        {
-            get
-            {
-                return DbContext.Set<TEntity>();
-            }
-            set { }
+            DbSet = DbContext.Set<TEntity>();
         }
 
         public int Save()
@@ -43,5 +38,6 @@ namespace PartsCatalog.DAL.Context
         {
             DbContext.Dispose();
         }
+
     }
 }

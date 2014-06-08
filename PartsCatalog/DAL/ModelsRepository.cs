@@ -31,7 +31,7 @@ namespace PartsCatalog.DAL
                 var hashNames = new List<string>();
                 foreach (var file in files)
                 {
-                    if (file.ContentLength > 0)
+                    if (file != null && file.ContentLength > 0)
                     {
                         hashNames.Add(imageManager.SaveImageWithHash(file));
                     }
@@ -41,18 +41,42 @@ namespace PartsCatalog.DAL
             SaveOrUpdate(model, m => m.Id);
         }
 
+        public override void Update(Model entityToUpdate)
+        {
+            var entity = GetById(entityToUpdate.Id);
+            dbContextAdapter.SetState(entity, EntityState.Detached);
+
+            if (String.IsNullOrEmpty(entityToUpdate.Images))
+            {
+                entityToUpdate.Images = entity.Images;
+            }
+
+            base.Update(entityToUpdate);
+
+            if (entity.Images != entityToUpdate.Images)
+            {
+                DeleteImages(entity.GetImages());
+            }
+        }
+
         public override void Delete(Model entityToDelete)
         {
             base.Delete(entityToDelete);
+
             if (!String.IsNullOrEmpty(entityToDelete.Images))
             {
-                var images = entityToDelete.GetImages();
-                foreach (var image in images)
+                DeleteImages(entityToDelete.GetImages());
+            }
+        }
+
+        private void DeleteImages(string[] images)
+        {
+            foreach (var image in images)
+            {
+                var models = Get(m => !String.IsNullOrEmpty(m.Images));
+                if (models.Where(model => model.GetImages().Contains(image)).Count() == 0)
                 {
-                    if (Get(model => model.GetImages().Contains(image)).Count() == 0)
-                    {
-                        imageManager.DeleteImage(image);
-                    }
+                    imageManager.DeleteImage(image);
                 }
             }
         }

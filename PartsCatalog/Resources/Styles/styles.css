@@ -3,10 +3,21 @@
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
+    background-color: #cdcdcd;
 }
 
 fieldset {
-    border: 1px solid #b3b3b3;
+    background-color: #F0F8FF;
+    border: 0px;
+    margin-top: 5px;
+}
+
+a {
+    color: black;
+}
+
+legend {
+    display: none;
 }
 
 /* Makes */
@@ -20,7 +31,7 @@ fieldset {
 .make {
     float: left;
     margin: 5px;
-    border: 1px solid #b3b3b3;
+    background-color: #F0F8FF;
     width: 150px;
     height: 150px;
     position: relative;
@@ -68,10 +79,37 @@ fieldset {
 .models-container {
     margin-left: auto;
     margin-right: auto;
-    width: 800px;
+    width: 850px;
 }
 
-.add-model {
+.model-name {
     margin-left: 5px;
-    display: block;
+    font-size: 16px;
+}
+
+.model-image {
+    max-width: 200px;
+    max-height: 200px;
+    margin: 5px;
+}
+
+.model {
+    margin-top: 5px;
+    background-color: #F0F8FF;
+    position: relative;
+}
+
+.model:hover {
+    cursor: pointer;
+}
+
+.edit-model {
+    display: none;
+    right: 5px;
+    position: absolute;
+    top: 0px;
+}
+
+.model:hover .edit-model {
+    display: inline;
 }

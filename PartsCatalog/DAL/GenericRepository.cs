@@ -11,9 +11,9 @@ namespace PartsCatalog.DAL
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private IDbContextAdapter<TEntity> dbContextAdapter;
+        protected IDbContextAdapter<TEntity> dbContextAdapter;
 
-        private IDbSet<TEntity> dbSet;
+        protected IDbSet<TEntity> dbSet;
 
         public GenericRepository(IDbContextAdapter<TEntity> dbContextAdapter)
         {

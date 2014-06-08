@@ -12,20 +12,21 @@ namespace PartsCatalog.Tests.Controllers
     public class MakesControllerTest
     {
         private MakesController unit;
-        private MakesRepositoryMock repository;
+        private MakesRepositoryMock makesRepository;
+        private ModelsRepositoryMock modelsRepository;
 
         [TestInitialize]
         public void Init()
         {
-            repository = new MakesRepositoryMock();
-            unit = new MakesController(repository);
+            makesRepository = new MakesRepositoryMock();
+            unit = new MakesController(makesRepository, modelsRepository);
         }
 
         [TestMethod]
         public void TestEdit()
         {
             var make = new Make() { Id = 1 };
-            repository.Insert(make);
+            makesRepository.Insert(make);
             var result = unit.Edit(1);
             Assert.IsTrue(result is ViewResult);
             Assert.AreEqual(make, ((ViewResult)result).Model);

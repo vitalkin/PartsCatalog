@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -14,6 +15,10 @@ namespace PartsCatalog.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        [ForeignKey("Make")]
+        [Column("Make_Id")]
+        public int MakeId { get; set; }
 
         public virtual Make Make { get; set; }
 
