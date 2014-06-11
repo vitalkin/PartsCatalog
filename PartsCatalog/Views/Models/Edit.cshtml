@@ -5,7 +5,7 @@
     Layout = "~/Views/LayoutPage.cshtml";
 }
 
-
+<div class="action-result">@TempData["Message"]</div>
 @Html.ActionLink("Back", "List", new { makeId = Model.Make.Id })
 @using (Html.BeginForm("Edit", "Models", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -27,9 +27,9 @@
         <p>
             <input type="file" name="files" accept="image/*" multiple />
         </p>
-        <p>
-            <input type="submit" value="Save" />
-            <input type="button" value="Delete" onclick="window.location.href='@Url.Action("Delete", new { makeId = Model.Make.Id, modelId = Model.Id })';" />
+        <p class="button-container">
+            <input type="submit" value="Save" class="button"/>
+            <input type="button" value="Delete" class="button" onclick="window.location.href='@Url.Action("Delete", new { makeId = Model.Make.Id, modelId = Model.Id })';" />
         </p>
     </fieldset>
 }

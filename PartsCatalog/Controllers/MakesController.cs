@@ -37,6 +37,7 @@ namespace PartsCatalog.Controllers
         public ActionResult Edit(Make make, HttpPostedFileBase file)
         {
             makesRepository.SaveOrUpdate(make, file);
+            TempData["Message"] = "Saved successfully";
             return RedirectToAction("Edit", new { makeId = make.Id });
         }
 

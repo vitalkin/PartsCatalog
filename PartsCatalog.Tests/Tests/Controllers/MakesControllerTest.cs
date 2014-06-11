@@ -19,6 +19,7 @@ namespace PartsCatalog.Tests.Controllers
         public void Init()
         {
             makesRepository = new MakesRepositoryMock();
+            modelsRepository = new ModelsRepositoryMock();
             unit = new MakesController(makesRepository, modelsRepository);
         }
 

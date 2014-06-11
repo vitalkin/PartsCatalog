@@ -37,6 +37,7 @@ namespace PartsCatalog.Controllers
         {
             model.Make = makesRepository.GetById(model.Make.Id);
             modelsRepository.SaveOrUpdate(model, files);
+            TempData["Message"] = "Saved successfully";
             return RedirectToAction("Edit", new { makeId = model.Make.Id, modelId = model.Id });
         }
 

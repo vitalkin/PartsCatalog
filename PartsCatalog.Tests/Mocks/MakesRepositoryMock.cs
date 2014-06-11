@@ -18,6 +18,7 @@ namespace PartsCatalog.Tests.Mocks
 
         public void SaveOrUpdate(Make make, HttpPostedFileBase file = null)
         {
+            base.SaveOrUpdate(make, m => m.Id);
         }
     }
 }

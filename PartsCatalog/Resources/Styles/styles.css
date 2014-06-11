@@ -3,35 +3,54 @@
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
-    background-color: #cdcdcd;
+    color: #4E4E56;
 }
 
 fieldset {
-    background-color: #F0F8FF;
+    background-color: #DCD0C0;
     border: 0px;
     margin-top: 5px;
 }
 
 a {
-    color: black;
+    color: #4E4E56;
 }
 
 legend {
     display: none;
 }
 
-/* Makes */
-
-.makes-container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 800px;
+.content {
+    width: 1080px;
+    margin: 0 auto 0 auto;
 }
+
+.button {
+    background-color: #B1938B;
+    border: 0px;
+    color: #FFFFFF;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button-container {
+    margin: 0px;
+}
+
+.action-result {
+    color: #006400;
+}
+
+/* Makes */
 
 .make {
     float: left;
     margin: 5px;
-    background-color: #F0F8FF;
+    background-color: #DCD0C0;
     width: 150px;
     height: 150px;
     position: relative;
@@ -76,12 +95,6 @@ legend {
 
 /* Models */
 
-.models-container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 850px;
-}
-
 .model-name {
     margin-left: 5px;
     font-size: 16px;
@@ -95,7 +108,7 @@ legend {
 
 .model {
     margin-top: 5px;
-    background-color: #F0F8FF;
+    background-color: #DCD0C0;
     position: relative;
 }
 
