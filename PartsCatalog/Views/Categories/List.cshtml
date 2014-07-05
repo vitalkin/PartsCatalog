@@ -86,6 +86,12 @@
             $.post("/Categories/Delete/", { id: categoryId }, function (data) {
                 $("#message").text(data.message);
                 $("#category_" + categoryId).remove();
+                $("#parent").empty();
+                $("#parent").append("<option></option>");
+                $("#categories li").map(function () {
+                    var id = $(this).attr("id").replace("category_", "");
+                    $("#parent").append("<option value=\"" + id + "\" >" + $("#category_" + id).text() + "</option>");
+                });
             });
         }
 

@@ -136,3 +136,8 @@ legend {
     cursor: pointer;
     vertical-align: top;
 }
+
+.category-tree ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
