@@ -140,4 +140,24 @@ legend {
 .category-tree ul {
     list-style-type: none;
     padding-left: 20px;
+    font-size: 16px;
+}
+
+.category:hover {
+    background-color: #DCD0C0;
+    cursor: pointer;
+}
+
+.category:hover ul {
+    background-color: #FFFFFF;
+}
+
+/* Parts */
+
+.parts-table {
+    width: 100%;
+}
+
+.parts-table .part td {
+    background-color: #DCD0C0;
 }

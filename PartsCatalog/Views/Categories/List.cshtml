@@ -58,6 +58,17 @@
 
     <script type="text/javascript">
 
+        $(document).ready(addHandlers);
+
+        function addHandlers() {
+            var categories = $("li[id^='category_']");
+            categories.off("click");
+            categories.click(function () {
+                var id = $(this).attr("id").replace("category_", "");
+                window.location.replace("/Parts/List/" + id);
+            });
+        }
+
         function addCategory() {
             var categoryName = $("#name").val().trim();
             var parentId = parseInt($("#parent").val());
@@ -78,6 +89,7 @@
                     var deleteButton = "<div class=\"delete-category\" onclick=\"removeCategory(" + data.id + ")\">Delete</div>";
                     parentElement.append("<li id=\"category_" + data.id + "\">" + categoryName + deleteButton + "</li>");
                     $("#parent").append("<option value=\"" + data.id + "\" >" + categoryName + "</option>");
+                    addHandlers();
                 });
             }
         }

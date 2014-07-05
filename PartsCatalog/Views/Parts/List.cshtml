@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PartsCatalog.Models.Part>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/LayoutPage.cshtml";
+}
+
+@Html.ActionLink("Add", "Add", new { }, new { @class = "add-part" })
+
+<table class="parts-table">
+    <tr class="parts-table-header">
+        <td class="part-image-column">Image</td>
+        <td class="part-manufacturer">Manufacturer</td>
+        <td class="part-name">Name</td>
+        <td class="part-country">Country</td>
+        <td class="part-price">Price</td>
+    </tr>
+
+@foreach (var part in Model)
+{
+    <tr class="part">
+        <td class="part-image-column">
+            @{var images = part.GetImages();}
+            @if (images != null && images.Count() > 0)
+            {
+                <img src="@Url.Content(PartsCatalog.Models.Part.ImagesPath + images.First())" class="part-image"/>
+            }
+        </td>
+        <td class="part-manufacturer-column">@part.Manufacturer</td>
+        <td class="part-name-column">@part.Name</td>
+        <td class="part-country-column">@part.Country</td>
+        <td class="part-price-column">@part.Price</td>
+    </tr>          
+}
+</table>

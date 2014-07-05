@@ -75,6 +75,7 @@ namespace PartsCatalog.App_Start
             kernel.Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>)).InRequestScope();
             kernel.Bind<IMakesRepository>().To<MakesRepository>().InRequestScope();
             kernel.Bind<IModelsRepository>().To<ModelsRepository>().InRequestScope();
+            kernel.Bind<IPartsRepository>().To<PartsRepository>().InRequestScope();
         }
 
 

@@ -10,8 +10,6 @@ namespace PartsCatalog.Models
     [Table("Categories")]
     public class Category
     {
-        public const string ImagesPath = "~/Resources/Images/Categories/";
-
         public int Id { get; set; }
 
         public string Name { get; set; }

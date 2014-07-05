@@ -1,10 +1,12 @@
-﻿using System;
+﻿using PartsCatalog.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
-namespace PartsCatalog.Models
+namespace PartsCatalog.DAL.Context
 {
     public class PartsCatalogDbContext : DbContext
     {
@@ -23,6 +25,7 @@ namespace PartsCatalog.Models
             modelBuilder.Entity<Make>();
             modelBuilder.Entity<Model>();
             modelBuilder.Entity<Category>();
+            modelBuilder.Entity<Part>();
         }
     }
 }
