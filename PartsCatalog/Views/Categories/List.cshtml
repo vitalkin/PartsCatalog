@@ -1,0 +1,104 @@
+﻿@model IEnumerable<PartsCatalog.Models.Category>
+
+@{
+    ViewBag.Title = "Categories";
+    Layout = "~/Views/LayoutPage.cshtml";
+}
+
+@functions {
+
+    IHtmlString BuildCategoryTree(IEnumerable<PartsCatalog.Models.Category> categories)
+    {
+        if (categories.Count() == 0) 
+        { 
+            return new HtmlString(String.Empty);  
+        }
+        
+        var sb = new System.Text.StringBuilder();
+        var childBuilder = new TagBuilder("li");
+        
+        foreach (var category in categories)
+        {
+            childBuilder.Attributes.Clear();
+            childBuilder.Attributes.Add("id", "category_" + category.Id);
+            childBuilder.AddCssClass("category");
+            childBuilder.InnerHtml = category.Name + BuildDeleteButton(category) + BuildCategoryTree(category.Children).ToString();
+            sb.AppendLine(childBuilder.ToString());
+        }
+
+        var tagBuilder = new TagBuilder("ul");
+        tagBuilder.InnerHtml = sb.ToString();
+
+        return Html.Raw(tagBuilder.ToString());
+    }
+    
+    IHtmlString BuildDeleteButton(PartsCatalog.Models.Category category)
+    {
+        var tagBuilder = new TagBuilder("div");
+        tagBuilder.AddCssClass("delete-category");
+        tagBuilder.Attributes.Add("onclick", "removeCategory(" + category.Id + ")");
+        tagBuilder.InnerHtml = "Delete";
+        return Html.Raw(tagBuilder.ToString());
+    }
+    
+    IEnumerable<SelectListItem> BuildItemList(IEnumerable<PartsCatalog.Models.Category> categories)
+    {
+        var result = new List<SelectListItem>() { new SelectListItem() };
+        result.AddRange(categories.Select(c => new SelectListItem()
+        {
+            Text = c.Name,
+            Value = c.Id.ToString()
+        }));
+        return result;
+    }
+
+}
+
+<div class="categories-container">
+
+    <script type="text/javascript">
+
+        function addCategory() {
+            var categoryName = $("#name").val().trim();
+            var parentId = parseInt($("#parent").val());
+            if (categoryName !== "") {
+                $.post("/Categories/Add/", { name: categoryName, parent: parentId }, function (data) {
+                    $("#message").text(data.message);
+
+                    var parentElement;
+                    if (!parentId) {
+                        parentElement = $("#categories");
+                    } else {
+                        parentElement = $("#category_" + parentId)
+                    }
+                    if (parentElement.find("ul").length == 0) {
+                        parentElement.append("<ul></ul>");
+                    }
+                    var parentElement = parentElement.find("ul").first();
+                    var deleteButton = "<div class=\"delete-category\" onclick=\"removeCategory(" + data.id + ")\">Delete</div>";
+                    parentElement.append("<li id=\"category_" + data.id + "\">" + categoryName + deleteButton + "</li>");
+                    $("#parent").append("<option value=\"" + data.id + "\" >" + categoryName + "</option>");
+                });
+            }
+        }
+
+        function removeCategory(categoryId) {
+            $.post("/Categories/Delete/", { id: categoryId }, function (data) {
+                $("#message").text(data.message);
+                $("#category_" + categoryId).remove();
+            });
+        }
+
+    </script>
+
+    <div id="message" class="action-result"></div>
+    <div class="add-category">
+        Name: <input id="name" name="Name" type="text" /> 
+        Parent: @Html.DropDownList("Parent", BuildItemList(Model), new { id = "parent" })
+        <a href="#" onclick="addCategory()">Add</a>
+
+    </div>
+
+    <div id="categories" class="category-tree">@BuildCategoryTree(Model.Where(c => c.ParentId == null))</div>
+
+</div>

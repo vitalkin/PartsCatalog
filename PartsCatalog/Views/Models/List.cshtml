@@ -12,7 +12,7 @@
     </div>
     @foreach (var item in Model)
     {
-        <div class="model">
+        <div class="model" onclick="window.location.href='@Url.Action("List", "Categories", new { makeId = item.Make.Id, modelId = item.Id })';">
             <div class="model-name">@(item.Name + " (" + item.ProductionStart + "-" + item.ProductionEnd + ")")</div>
             <div class="model-images">
                 @{var images = item.GetImages();}

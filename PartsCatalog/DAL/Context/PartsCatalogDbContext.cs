@@ -22,6 +22,7 @@ namespace PartsCatalog.Models
         {
             modelBuilder.Entity<Make>();
             modelBuilder.Entity<Model>();
+            modelBuilder.Entity<Category>();
         }
     }
 }

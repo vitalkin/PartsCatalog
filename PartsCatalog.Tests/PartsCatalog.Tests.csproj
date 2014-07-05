@@ -119,6 +119,7 @@
     <Compile Include="Tests\Controllers\MakesControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Controllers\ModelsControllerTest.cs" />
+    <Compile Include="Tests\Controllers\CategoriesControllerTest.cs" />
     <Compile Include="Tests\DAL\MakesRepositoryTest.cs" />
     <Compile Include="Tests\DAL\ModelsRepositoryTest.cs" />
   </ItemGroup>
