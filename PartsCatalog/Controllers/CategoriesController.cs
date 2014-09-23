@@ -20,6 +20,7 @@ namespace PartsCatalog.Controllers
         public ActionResult List(int? makeId, int? modelId)
         {
             var categories = categoriesRepository.Get().ToList();
+            ViewBag.ModelId = modelId;
             return View(categories);
         }
 

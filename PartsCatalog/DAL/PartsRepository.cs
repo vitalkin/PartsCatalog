@@ -3,6 +3,7 @@ using PartsCatalog.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace PartsCatalog.DAL
@@ -13,5 +14,12 @@ namespace PartsCatalog.DAL
             : base(dbContextAdapter)
         {
         }
+
+        public IEnumerable<Part> Get(int? categoryId, int? modelId)
+        {
+            return Get(p => (categoryId != null ? categoryId == p.CategoryId : true) 
+                    && (modelId != null ? modelId == p.ModelId : true), p => p.Name);
+        }
+
     }
 }

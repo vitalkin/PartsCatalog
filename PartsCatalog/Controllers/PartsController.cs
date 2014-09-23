@@ -16,9 +16,10 @@ namespace PartsCatalog.Controllers
             this.partsRepository = partsRepository;
         }
 
-        public ActionResult List(int? categoryId)
+        public ActionResult List(int? categoryId, int? modelId)
         {
-            return View(partsRepository.Get());
+            var parts = partsRepository.Get(categoryId, modelId);
+            return View(parts);
         }
     }
 }

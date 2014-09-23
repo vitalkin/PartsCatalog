@@ -9,5 +9,6 @@ namespace PartsCatalog.DAL
 {
     public interface IPartsRepository : IGenericRepository<Part>
     {
+        IEnumerable<Part> Get(int? categoryId, int? modelId);
     }
 }

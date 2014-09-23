@@ -30,6 +30,12 @@ namespace PartsCatalog.Models
 
         public virtual Category Category { get; set; }
 
+        [Column("Model_Id")]
+        [ForeignKey("Model")]
+        public int ModelId { get; set; }
+
+        public virtual Model Model { get; set; }
+
         public string[] GetImages()
         {
             return Images == null ? null : Images.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);

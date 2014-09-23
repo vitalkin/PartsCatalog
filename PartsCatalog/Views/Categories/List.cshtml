@@ -65,7 +65,12 @@
             categories.off("click");
             categories.click(function () {
                 var id = $(this).attr("id").replace("category_", "");
-                window.location.replace("/Parts/List/" + id);
+                var path = "/Parts/List?categoryId=" + id;
+                var model = $("#modelId").val().trim();
+                if (model !== "") {
+                    path += "&modelId=" + model;
+                }
+                window.location.replace(path);
             });
         }
 
@@ -110,6 +115,7 @@
     </script>
 
     <div id="message" class="action-result"></div>
+    <input id="modelId" type="hidden" value="@ViewBag.ModelId"/>
     <div class="add-category">
         Name: <input id="name" name="Name" type="text" /> 
         Parent: @Html.DropDownList("Parent", BuildItemList(Model), new { id = "parent" })
