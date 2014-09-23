@@ -22,7 +22,10 @@
             childBuilder.Attributes.Clear();
             childBuilder.Attributes.Add("id", "category_" + category.Id);
             childBuilder.AddCssClass("category");
-            childBuilder.InnerHtml = category.Name + BuildDeleteButton(category) + BuildCategoryTree(category.Children).ToString();
+            var nameTagBuidler = new TagBuilder("span");
+            nameTagBuidler.Attributes.Add("id", "categoryName_" + category.Id);
+            nameTagBuidler.InnerHtml = category.Name;
+            childBuilder.InnerHtml = nameTagBuidler.ToString() + BuildDeleteButton(category) + BuildCategoryTree(category.Children).ToString();
             sb.AppendLine(childBuilder.ToString());
         }
 
@@ -61,10 +64,10 @@
         $(document).ready(addHandlers);
 
         function addHandlers() {
-            var categories = $("li[id^='category_']");
+            var categories = $("span[id^='categoryName_']");
             categories.off("click");
             categories.click(function () {
-                var id = $(this).attr("id").replace("category_", "");
+                var id = $(this).attr("id").replace("categoryName_", "");
                 var path = "/Parts/List?categoryId=" + id;
                 var model = $("#modelId").val().trim();
                 if (model !== "") {
@@ -92,6 +95,7 @@
                     }
                     var parentElement = parentElement.find("ul").first();
                     var deleteButton = "<div class=\"delete-category\" onclick=\"removeCategory(" + data.id + ")\">Delete</div>";
+                    categoryName = "<span id=\"categoryName_" + data.id + "\">" + categoryName + "</span>";
                     parentElement.append("<li id=\"category_" + data.id + "\">" + categoryName + deleteButton + "</li>");
                     $("#parent").append("<option value=\"" + data.id + "\" >" + categoryName + "</option>");
                     addHandlers();
