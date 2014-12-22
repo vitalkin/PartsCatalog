@@ -24,7 +24,7 @@
         </p>
         <p class="button-container">
             <input type="submit" value="Save" class="button"/>
-            <input type="button" value="Delete" class="button" onclick="window.location.href='@Url.Action("Delete", new { makeId = Model.Id})';" />
+            <input type="button" value="Delete" class="button" onclick="window.location.href='@Url.Action("Delete", new { makeId = Model.Id})';" @(Model.Id == 0 ? "disabled" : "")/>
         </p>
     </fieldset>
 }

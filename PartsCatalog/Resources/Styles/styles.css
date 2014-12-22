@@ -39,6 +39,10 @@ legend {
     font-size: 14px;
 }
 
+.button:disabled {
+    background-color: #808080;
+}
+
 .button:hover {
     cursor: pointer;
 }
@@ -120,6 +124,14 @@ legend {
 
 .model:hover {
     cursor: pointer;
+}
+
+.model:hover .model-images {
+    display: block;
+}
+
+.model-images {
+    display: none;
 }
 
 .edit-model {
